@@ -22,18 +22,28 @@ public class GraphImplementation implements Graph {
         }
         //update incident array w/ adj matrix values column-wise
         for(int j = 0; j < adjmatrix.length;j++){
-            for(int k = 0; k < adjmatrix.length;k++){
-                incident[j] += adjmatrix[j][k];
+            for(int k = 0; k < adjmatrix[j].length;k++){
+                incident[k] += adjmatrix[j][k];
             }
         }
         List<Integer> scedule = new LinkedList<>();
         for(int j = 0 ; j < vertices; j++){
+            for(int h = 0; h < incident.length; h++){
+                if(incident[h] == 0){
+                    int[] neighbors = this.neighbors(h);
+                    for(int i = 0; i < neighbors.length;i++){
+                        incident[neighbors[i]] -= 1;
+                    }
+                    scedule.add(h);
+                    incident[h] = -1;
+                }
+            }
             /*
              * 1. find an index w/ 0 count
              * 2. update incident array by count
              * 3. return index of item with 0 count, set to -1
              */
-            scedule.add(j);
+
         }
         return scedule;
     }
